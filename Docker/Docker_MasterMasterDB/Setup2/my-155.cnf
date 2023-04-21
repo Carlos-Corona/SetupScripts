@@ -1,0 +1,6 @@
+# my-155.cnf
+[mysqld]
+server_id = 1
+log_bin = mysql-bin
+binlog_format = ROW
+binlog_do_db = MediaDB

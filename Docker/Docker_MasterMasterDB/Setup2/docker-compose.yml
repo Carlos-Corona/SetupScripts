@@ -1,0 +1,39 @@
+# docker-compose.yml
+version: '3.9'
+services:
+  mariadb-master1:
+    build: .
+    volumes:
+      - ./my-155.cnf:/etc/mysql/mariadb.conf.d/99-replication.cnf
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=Valya
+      - MYSQL_PASSWORD=VReplica
+      - MYSQL_DATABASE=MediaDB
+    ports:
+      - "33061:3306"
+    networks:
+      app_net:
+        ipv4_address: 192.168.100.155
+
+  mariadb-master2:
+    build: .
+    volumes:
+      - ./my-156.cnf:/etc/mysql/mariadb.conf.d/99-replication.cnf
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=Valya
+      - MYSQL_PASSWORD=VReplica
+      - MYSQL_DATABASE=MediaDB
+    ports:
+      - "33062:3306"
+    networks:
+      app_net:
+        ipv4_address: 192.168.100.156
+
+networks:
+  app_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.100.0/24
