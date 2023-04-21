@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb:10.5
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: replication_db
+      MYSQL_USER: repluser
+      MYSQL_PASSWORD: replpassword
+    ports:
+      - "3306:3306"
+    # On host 192.168.100.155//156, modify the docker-compose.yml file, changing the server-id in the command for the db service to 1//2:
+    command: --server-id=1 --log-bin=master-bin --binlog-format=ROW --log-basename=master 
+  setup:
+    image: mariadb:10.5
+    depends_on:
+      - db
+    volumes:
+      - ./setup-master-master-replication.sql:/docker-entrypoint-initdb.d/setup-master-master-replication.sql
+    entrypoint: ['bash', '-c', 'sleep 15 && mysql -h db -u root -prootpassword < /docker-entrypoint-initdb.d/setup-master-master-replication.sql && echo "Replication setup completed"']
