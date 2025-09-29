@@ -1,0 +1,30 @@
+[repository]
+# Repository URL (HTTPS format recommended)
+url = https://github.com/your_username/your_repository.git
+
+# Target branch to sync (main, master, develop, etc.)
+branch = main
+
+# Local path where repository should be cloned/synced
+local_path = .
+
+# GitHub personal access token (optional, but recommended for private repos)
+# Generate at: https://github.com/settings/tokens
+token = 
+
+[logging]
+# Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+level = INFO
+
+# Log file path (optional, leave empty for console only)
+file = auto_repo_sync.log
+
+[options]
+# Force pull even if no changes detected
+force_pull = false
+
+# Automatically backup local changes by stashing them
+backup_local_changes = true
+
+# Automatically stash uncommitted changes before pulling
+auto_stash = true

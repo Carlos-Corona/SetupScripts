@@ -1,0 +1,27 @@
+# AutoDR Systemd Timer Template  
+# Copy this to /etc/systemd/system/auto-repo-sync@.timer
+
+[Unit]
+Description=Run Auto Repository Sync for %i every 15 minutes
+Requires=auto-repo-sync@%i.service
+
+[Timer]
+# Run every 15 minutes
+OnCalendar=*:0/15
+
+# Other timing examples:
+# OnCalendar=*:0/5          # Every 5 minutes
+# OnCalendar=*:0/30         # Every 30 minutes  
+# OnCalendar=hourly         # Every hour
+# OnCalendar=*:00           # Every hour at :00
+# OnCalendar=*-*-* 09:00:00 # Every day at 9 AM
+# OnCalendar=Mon *-*-* 09:00:00 # Every Monday at 9 AM
+
+# Start timer even if the system was powered down
+Persistent=true
+
+# Randomize startup within a 60-second window to avoid thundering herd
+RandomizedDelaySec=60
+
+[Install]
+WantedBy=timers.target

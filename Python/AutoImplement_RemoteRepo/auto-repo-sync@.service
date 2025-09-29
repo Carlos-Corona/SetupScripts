@@ -1,0 +1,26 @@
+# AutoDR Systemd Service Template
+# Copy this to /etc/systemd/system/auto-repo-sync@.service
+
+[Unit]
+Description=Auto Repository Sync for %i
+After=network.target
+Wants=network.target
+
+[Service]
+Type=oneshot
+User=%i
+Group=%i
+WorkingDirectory=/home/%i/repos/%i
+ExecStart=/usr/bin/python3 /path/to/AutoDR.py --config /home/%i/configs/%i.ini
+StandardOutput=journal
+StandardError=journal
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/%i/repos/%i /home/%i/configs
+
+[Install]
+WantedBy=multi-user.target
